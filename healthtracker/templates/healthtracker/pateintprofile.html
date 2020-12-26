@@ -1,0 +1,9 @@
+{% extends "healthtracker/layout.html" %}
+
+{% block body %}
+    {% for dat in data %}
+
+    {% empty %}
+        No health records found!
+    {% endfor %}
+{% endblock %}
