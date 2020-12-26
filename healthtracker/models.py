@@ -22,8 +22,25 @@ class Patients(models.Model):
     Address = models.CharField(max_length=255)
     TimeOfAdmission = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"Name: f{self.FirstName}, Reg Number: f{self.RegNumber}"
+
+    def serialize(self):
+        return {
+            "regnumber": self.RegNumber,
+            "fname": self.FirstName,
+            "lname": self.LastName,
+            "roomnumber": self.RoomNo,
+            "gender": self.Gender,
+            "address": self.Address,
+            "admissiontime": self.TimeOfAdmission.strftime("%b %d %Y, %I:%M %p")
+        }
+
 class PatientsStatus(models.Model):
     Patient = models.ForeignKey('Patients', on_delete=models.CASCADE, related_name="pateint")
     PulseRate = models.FloatField()
     Temperature = models.FloatField()
     Time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Current Status: Pulse: {self.PulseRate}, Temp: f{self.Temperature}"

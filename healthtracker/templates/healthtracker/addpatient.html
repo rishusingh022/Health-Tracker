@@ -1,0 +1,33 @@
+{% extends "healthtracker/layout.html" %}
+
+{% block title %}
+    Health Tracker | Add Patient
+{% endblock %}
+
+{% block body %}
+    {% if message %}
+        <div class="alert alert-primary">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <form action="{% url 'addpatient' %}" method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="First Name" name="fname" required>
+        <input type="text" placeholder="Last Name" name="lname" required>
+        <input type="number" placeholder="roomnumber" name="rnumber" required>
+        <div>
+            Gender:
+            Male <input type="radio" name="gender" placeholder="male" value="male" required>
+            Female <input type="radio" name="gender" placeholder="female" value="female" required>
+            Not to mention <input type="radio" name="gender" value="ntm" required>
+        </div>
+        <div>
+            <h3>Address</h3>
+            <input type="text" maxlength="50" name="state" placeholder="State" required>
+            <input type="text" maxlength="255" name="streetaddress" placeholder="Stree Address" required>
+        </div>
+        <input type="submit" class="btn btn-success">
+        <input type="reset" class="btn btn-primary">
+    </form>
+{% endblock %}

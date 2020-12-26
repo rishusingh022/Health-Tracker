@@ -9,7 +9,7 @@
         <form action="{% url 'checkhealth' %}" method="post">
             {% csrf_token %}
             Registration Number: <input type="text" name="regnumber">
-            <input type="submit">
+            <input type="submit" class="btn btn-primary">
         </form>
     </div>
 {% endblock %}

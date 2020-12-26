@@ -1,4 +1,5 @@
-from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from .models import *
@@ -37,15 +38,64 @@ def checkhealth(request):
     if request.method == 'POST':
         regnumber = request.POST["regnumber"]
         try:
-            pateint = Patients.objects.get(RegNumber=regnumber)
+            patient = Patients.objects.get(RegNumber=regnumber)
         except Patients.DoesNotExist:
-            pateint = None
-        if pateint != None:
-            data = PatientsStatus.objects.filter(Patient=pateint).order_by('-Time')
+            patient = None
+        if patient != None:
+            data = PatientsStatus.objects.filter(Patient=patient).order_by('-Time')
         else:
             data = []
-        return render(request, "healthtracker/pateintprofile.html", {
+        return render(request, "healthtracker/patientprofile.html", {
             "data": data
         })
     else:
         return render(request, "healthtracker/chekhealth.html")
+
+
+
+def addpatient(request):
+    if request.method == 'POST':
+        fname = request.POST['fname']
+        lname = request.POST['lname']
+        gender = request.POST['gender']
+        roomnumber = request.POST['rnumber']
+        state = request.POST['state']
+        streeadd = request.POST['streetaddress']
+        newpateints = Patients(
+            FirstName=fname,
+            LastName=lname,
+            RoomNo=roomnumber,
+            Gender=gender,
+            Address=f"{streeadd}, {state}"
+        )
+        newpateints.save()
+        print("new patient added")
+        return render(request, "healthtracker/addpatient.html", {
+            "message": "patient Added"
+        })
+    else:
+        return render(request, "healthtracker/addpatient.html")
+
+
+def addpateintdata(request):
+    if request.method == 'POST':
+        regnumber = request.POST['regnumber']
+        pulserate = request.POST['pulserate']
+        temperature = request.POST['temperature']
+        patient = Patients.objects.get(RegNumber=regnumber)
+        data = PatientsStatus(Patient=patient, PulseRate=pulserate, Temperature=temperature)
+        data.save()
+        print(f"Status Updated of {patient.FirstName}")
+        return render(request, "healthtracker/adddata.html", {
+            "message": f"Status updated!"
+        })
+    else:
+        return render(request, "healthtracker/adddata.html")
+
+
+def pateintsdataapi(request):
+    if request.method == 'GET':
+        patients = Patients.objects.all()
+        return JsonResponse([patient.serialize() for patient in patients], safe=False)
+    else:
+        return JsonResponse({"message": "GET method required"})
