@@ -11,5 +11,6 @@ urlpatterns = [
     path("addpatientdata", views.addpateintdata, name="adddata"),
 
     # API urls
-    path("patientsdataapi", views.pateintsdataapi, name="pdataapi")
+    path("patientsdataapi", views.pateintsdataapi, name="pdataapi"),
+    path("patientsstatusapi/<str:regnumber>", views.patientsstatusapi, name="pstatusapi")
 ]

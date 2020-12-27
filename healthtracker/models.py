@@ -5,7 +5,7 @@ from django.db import models
 def registrationNo():
     latest_patient = Patients.objects.all().order_by('id').last()
     if not latest_patient:
-        return f"REG20201"
+        return "REG20201"
     return f"REG2020{latest_patient.id + 1}"
 
 # Create your models here.
@@ -44,3 +44,11 @@ class PatientsStatus(models.Model):
 
     def __str__(self):
         return f"Current Status: Pulse: {self.PulseRate}, Temp: f{self.Temperature}"
+
+    def serialize(self):
+        return {
+            "patient": self.Patient.serialize(),
+            "pulserate": self.PulseRate,
+            "temperature": self.Temperature,
+            "time": self.Time.strftime("%b %d %Y, %I:%M %p")
+        }
