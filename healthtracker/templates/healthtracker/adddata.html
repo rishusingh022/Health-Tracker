@@ -5,24 +5,24 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Add patient Data</h1>
-
     {% if message %}
         <div class="alert alert-success">
             {{ message }}
         </div>
     {% endif %}
 
-    <form action="{% url 'adddata' %}" method="post">
+    <form action="{% url 'adddata' %}" method="post" id="body-div-div" style="padding-left: 25px; padding-bottom:25px;">
+        <h2>Add Patient's details</h2>
+        <p>*Enter the registration number of the patient(format: REG2020xx) & enter the current values of the pulse rate and temp</p>
         {% csrf_token %}
         <div>
-            <input type="text" name="regnumber" placeholder="Registration Number" required>
+            <input type="text" name="regnumber" placeholder="Registration Number" required class="input-form">
         </div>
         <div>
-            <input type="number" step="0.1" name="pulserate" placeholder="Pulse Rate" required>
+            <input type="number" step="0.1" name="pulserate" placeholder="Pulse Rate" required class="input-form">
         </div>
         <div>
-            <input type="number" step="0.1" name="temperature" placeholder="Temperature" required>
+            <input type="number" step="0.1" name="temperature" placeholder="Temperature" required class="input-form">
         </div>
         <div>
             <input type="submit" class="btn btn-success">

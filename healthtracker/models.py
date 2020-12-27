@@ -18,7 +18,7 @@ class Patients(models.Model):
     LastName = models.CharField(max_length=255)
     RegNumber = models.CharField(max_length=255, default=registrationNo, blank=False, null=False)
     RoomNo = models.IntegerField()
-    Gender = models.CharField(max_length=1)
+    Gender = models.CharField(max_length=6)
     Address = models.CharField(max_length=255)
     TimeOfAdmission = models.DateTimeField(auto_now_add=True)
 

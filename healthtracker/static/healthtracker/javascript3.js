@@ -44,8 +44,8 @@ function displaydata(regnumber)
     let cell1 = header.insertCell(1);
     let cell2  = header.insertCell(2);
     let cell3  = header.insertCell(3);
-    cell1.innerHTML = "Pulse Rate";
-    cell2.innerHTML = "Temperature";
+    cell1.innerHTML = "Pulse Rate (BPM)";
+    cell2.innerHTML = "Temperature (F)";
     cell3.innerHTML = "Time";
     cell4.innerHTML = "#";
     cell1.scope = 'col';
@@ -57,7 +57,14 @@ function displaydata(regnumber)
         .then(data => {
             let i = 0;
             let j = 1;
-            for(i = 0; i < data.length; i++)
+            let k = 0
+            if(data.length < 10)
+            {
+                k = data.length
+            }
+            else
+                k = 10
+            for(i = 0; i < 10; i++)
             {
                 let newrow = table.insertRow(j);
                 let newcell4 = newrow.insertCell(0);
@@ -73,5 +80,4 @@ function displaydata(regnumber)
                 j++;
             }
         });
-
 }
